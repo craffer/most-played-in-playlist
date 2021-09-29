@@ -12,6 +12,7 @@ SPOTIPY_REDIRECT_URI = os.environ.get("SPOTIPY_REDIRECT_URI")
 PLAYLIST_NAME = "the good stuff"
 
 
+# connect to last.fm
 lastfm = pylast.LastFMNetwork(
     api_key=LASTFM_API_KEY,
     api_secret=LASTFM_API_SECRET,
@@ -21,13 +22,20 @@ lastfm = pylast.LastFMNetwork(
 
 SCOPE = "user-library-read"
 sp = spotipy.Spotify(auth_manager=spotipy.SpotifyOAuth(scope=SCOPE))
-user = lastfm.get_user(LAST_FM_USERNAME)
-top_tracks = user.get_top_tracks(pylast.PERIOD_6MONTHS, limit=300)
 
-print("Your top played tracks of the last 6 months:")
-for i, track in enumerate(top_tracks):
+# get top tracks from last.fm
+user = lastfm.get_user(LAST_FM_USERNAME)
+top_tracks_raw = user.get_top_tracks(pylast.PERIOD_6MONTHS, limit=300)
+top_tracks = {}
+
+
+for track in top_tracks_raw:
     if track.weight < 5:
         break
+    song = (track.item.title, track.item.artist.name)
+    plays = track.weight
+    top_tracks[song] = plays
+
 user_playlists = sp.current_user_playlists()
 selected_playlist = None
 for playlist in user_playlists["items"]:
