@@ -51,3 +51,23 @@ page_number = 0
 while current_result:
     playlist_tracks.extend(current_result["items"])
     current_result = sp.next(current_result)
+
+played_tracks = {}
+unplayed_tracks = set()
+for item in playlist_tracks:
+    track = item["track"]
+    pair = (track["name"], track["album"]["artists"][0]["name"])
+    if pair in top_tracks:
+        played_tracks[pair] = top_tracks[pair]
+    else:
+        unplayed_tracks.add(pair)
+
+print("Most played tracks in the playlist:")
+for i, (pair, plays) in enumerate(
+    sorted(played_tracks.items(), key=lambda item: item[1], reverse=True)
+):
+    print(f"{i}. {pair[1]} – {pair[0]} – {plays} plays")
+
+print("\nMost skipped tracks (<5 plays each):")
+for pair in unplayed_tracks:
+    print(f"{pair[1]} – {pair[0]}")
