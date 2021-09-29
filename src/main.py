@@ -14,8 +14,10 @@ lastfm = pylast.LastFMNetwork(
 )
 
 user = lastfm.get_user(LAST_FM_USERNAME)
-top_tracks= user.get_top_tracks(pylast.PERIOD_6MONTHS, limit=100)
+top_tracks= user.get_top_tracks(pylast.PERIOD_6MONTHS, limit=300)
 
 print("Your top played tracks of the last 6 months:")
 for i, track in enumerate(top_tracks):
+    if (track.weight < 5):
+        break
     print(f"{i + 1}. {track.item} – {track.weight} plays")
