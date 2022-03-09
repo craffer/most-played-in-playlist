@@ -25,12 +25,12 @@ sp = spotipy.Spotify(auth_manager=spotipy.SpotifyOAuth(scope=SCOPE))
 
 # get top tracks from last.fm
 user = lastfm.get_user(LAST_FM_USERNAME)
-top_tracks_raw = user.get_top_tracks(pylast.PERIOD_6MONTHS, limit=300)
+top_tracks_raw = user.get_top_tracks(pylast.PERIOD_6MONTHS, limit=500)
 top_tracks = {}
 
 
 for track in top_tracks_raw:
-    if track.weight < 5:
+    if track.weight < 3:
         break
     song = (track.item.title, track.item.artist.name)
     plays = track.weight
