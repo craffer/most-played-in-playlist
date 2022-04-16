@@ -66,8 +66,8 @@ print("Most played tracks in the playlist:")
 for i, (pair, plays) in enumerate(
     sorted(played_tracks.items(), key=lambda item: item[1], reverse=True)
 ):
-    print(f"{i}. {pair[1]} – {pair[0]} – {plays} plays")
+    print(f"{i + 1}. {pair[1]} – {pair[0]} – {plays} plays")
 
-print("\nMost skipped tracks (<5 plays each):")
+print("\nMost skipped tracks (<3 plays each):")
 for pair in unplayed_tracks:
     print(f"{pair[1]} – {pair[0]}")
